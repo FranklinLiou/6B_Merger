@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class Merger {
 
     ArrayList<String> usersData;
+    // ArrayList<String> list0;
+    // ArrayList<String> list1;
 
     /**
       Construct an instance from a list of data
@@ -28,6 +30,56 @@ public class Merger {
       , int nItems  // number of items in the merged list
                     // = just past end of list1
       ) {
+        ArrayList<String> list0 = new ArrayList<String>(start1 - start0);
+        ArrayList<String> list1 = new ArrayList<String>((usersData.size() - start0) - start1);
+        for (int i = start0; i < start1; i++) {
+            list0.add(usersData.get(i));
+        }
+        for (int i = start1; i < usersData.size() - nItems; i++) {
+            list1.add(usersData.get(i));
+        }
+        ArrayList<String> merged = new ArrayList<String>(nItems);
+        merge(list0
+             , list1
+             , merged);
+    }
+
+    public ArrayList<String> merge(ArrayList<String> list0
+                     , ArrayList<String> list1
+                     , ArrayList<String> merged) {
+        if (list0.size() == 0
+            && list1.size() == 0) {
+            return merged;
+        }
+        else if (list0.size() == 0) {
+            String added = list1.remove(0);
+            merged.add(added);
+            merge(list0
+                  , list1
+                  , merged);
+        }
+        else if (list1.size() == 0) {
+            String added = list0.remove(0);
+            merged.add(added);
+            merge(list0
+                  , list1
+                  , merged);
+        }
+        else if (list0.get(0).compareTo(list1.get(0)) < 0) {
+            String added = list0.remove(0);
+            merged.add(added);
+            merge(list0
+                  , list1
+                  , merged);
+        }
+        else {
+            String added = list0.remove(0);
+            merged.add(added);
+            merge(list0
+                  , list1
+                  , merged);
+        }
+      }
     }
 
 
